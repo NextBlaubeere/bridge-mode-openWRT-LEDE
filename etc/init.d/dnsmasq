@@ -390,7 +390,7 @@ dhcp_add() {
 		network_get_ipaddr bridge_addr "$bridge_interface" || return 0
 		network_get_device bridge_ifname "$bridge_interface" || return 0
 		network_get_subnet bridge_mask "$bridge_interface" || return 0
-		network_get_gateway bridge_gateway "$bridge_interface" || return  #this does not work :-(
+		network_get_gateway bridge_gateway "$bridge_interface" || return 0 #this does not work :-(
 		bridge_mask=$(echo "$bridge_mask" | cut -d "/" -f2)
 		cdr2mask $bridge_mask
 	
