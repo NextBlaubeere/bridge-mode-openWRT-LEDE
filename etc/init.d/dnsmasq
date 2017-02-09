@@ -380,8 +380,6 @@ dhcp_add() {
 	config_get_bool bridge_mode "$cfg" bridge_mode 0
 	if [ $bridge_mode -gt 0 ]; then
 	
-		echo "bridge_mode enabled!" > /tmp/debug
-	
 		# get interface whose IP-Address should be bridged
 		config_get bridge_interface "$cfg" bridge_interface
 		
@@ -408,10 +406,10 @@ dhcp_add() {
 		ip rule add pref 142 iif $ifname lookup 42
 		ip rule add pref 143 iif $bridge_ifname lookup 43
 	
-		# adding a pseudo mac in arptable to prevent arp-request-flood when bridging to an inte
+		# adding a pseudo mac in arptable to prevent arp-request-flood of client
 		ip neighbor add $bridge_gateway lladdr aa:bb:cc:dd:ee:ff dev $bridge_ifname nud perm
 
-		# turn on arp-proxy for 
+		# turn on arp-proxy on, so that client can retreive gateway mac
 		echo 1 > /proc/sys/net/ipv4/conf/$ifname/proxy_arp
 		
 		# append parameter
@@ -419,12 +417,8 @@ dhcp_add() {
 		xappend "--dhcp-option-force=${networkid:+$networkid,}3,$bridge_gateway"
 		dhcp_option_add "$cfg" "$networkid"
 		
-		echo "--dhcp-range=$networkid,$bridge_addr,$bridge_addr,$bridge_mask,$leasetime${options:+ $options}" >> /tmp/debug
-		echo "--dhcp-option-force=${networkid:+$networkid,}3,$bridge_gateway" >> /tmp/debug
-	
 	else
 	
-		echo "bridgemode DISABLED" > /tmp/debug
 	
 		# Do not support non-static interfaces for now
 		[ static = "$proto" ] || return 0
