@@ -836,6 +836,7 @@ dnsmasq_stop()
 		
 		ip neighbor delete $bridge_gateway lladdr aa:bb:cc:dd:ee:ff dev $bridge_ifname
 		ip rule delete from 0/0 to 0/0 table 42
+		ip rule delete from 0/0 to 0/0 table 43
 		ip route flush table 42
 		ip route flush table 43
 		

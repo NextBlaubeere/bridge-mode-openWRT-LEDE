@@ -135,7 +135,7 @@ _proto_mbim_setup() {
 	
 	proto_init_update "$ifname" 1
 	proto_add_ipv4_address $IP $MASK
-	proto_add_ipv4_route 0.0.0.0 $GATEWAY
+	proto_add_ipv4_route 0.0.0.0 0.0.0.0 $GATEWAY
 	proto_send_update "$interface"
 
 	json_init
