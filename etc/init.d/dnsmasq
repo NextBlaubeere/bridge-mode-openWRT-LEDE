@@ -16,6 +16,8 @@ TRUSTANCHORSFILE="/usr/share/dnsmasq/trust-anchors.conf"
 TIMEVALIDFILE="/var/state/dnsmasqsec"
 BASEDHCPSTAMPFILE="/var/run/dnsmasq"
 
+BRIDGE_MODE_USED=0
+
 # https://stackoverflow.com/questions/20762575
 cdr2mask ()
 {
@@ -379,12 +381,11 @@ dhcp_add() {
 	# BridgeMode Hack Enabled?
 	config_get_bool bridge_mode "$cfg" bridge_mode 0
 	if [ $bridge_mode -gt 0 ]; then
+		BRIDGE_MODE_USED=1
 	
 		# get interface whose IP-Address should be bridged
 		config_get bridge_interface "$cfg" bridge_interface
-		
 		[ -n "$bridge_interface" ] || return 0
-		
 		
 		# get stuff needed for bridge
 		network_get_ipaddr bridge_addr "$bridge_interface" || return 0
@@ -393,7 +394,6 @@ dhcp_add() {
 		network_get_gateway bridge_gateway "$bridge_interface" || return 0 #this does not work :-(
 		bridge_mask=$(echo "$bridge_mask" | cut -d "/" -f2)
 		cdr2mask $bridge_mask
-	
 		bridge_gateway=$(cat /tmp/ip | grep "gateway" | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)") #workaround for not working function network_get_gateway
 	
 		# get some usual stuff
@@ -418,7 +418,7 @@ dhcp_add() {
 		dhcp_option_add "$cfg" "$networkid"
 		
 	else
-	
+		BRIDGE_MODE_USED=0
 	
 		# Do not support non-static interfaces for now
 		[ static = "$proto" ] || return 0
@@ -831,6 +831,16 @@ dnsmasq_stop()
 {
 	local cfg="$1"
 
+	if [ $BRIDGE_MODE_USED -gt 0 ]; then
+		# clean up bridge mode
+		
+		ip neighbor delete $bridge_gateway lladdr aa:bb:cc:dd:ee:ff dev $bridge_ifname
+		ip rule delete from 0/0 to 0/0 table 42
+		ip route flush table 42
+		ip route flush table 43
+		
+	fi
+	
 	config_get resolvfile "$cfg" "resolvfile"
 
 	#relink /tmp/resolve.conf only for main instance
