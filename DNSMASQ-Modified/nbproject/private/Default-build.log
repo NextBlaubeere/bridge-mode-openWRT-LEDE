@@ -1,0 +1,38 @@
+make[1]: Verzeichnis „/home/manuel/Downloads/dnsmasq-2.76/src“ wird betreten
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c cache.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c rfc1035.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c util.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c option.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c forward.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c network.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c dnsmasq.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c dhcp.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c lease.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c rfc2131.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c netlink.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c dbus.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c bpf.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c helper.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c tftp.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c log.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c conntrack.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c dhcp6.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c rfc3315.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c dhcp-common.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c outpacket.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c radv.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c slaac.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c auth.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c ipset.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c domain.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c dnssec.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c blockdata.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c tables.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c loop.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c inotify.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c poll.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c rrfilter.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c edns0.c	
+cc -Wall -W -O2   -DVERSION='"2.76"'          -c arp.c	
+cc  -o dnsmasq cache.o rfc1035.o util.o option.o forward.o network.o dnsmasq.o dhcp.o lease.o rfc2131.o netlink.o dbus.o bpf.o helper.o tftp.o log.o conntrack.o dhcp6.o rfc3315.o dhcp-common.o outpacket.o radv.o slaac.o auth.o ipset.o domain.o dnssec.o blockdata.o tables.o loop.o inotify.o poll.o rrfilter.o edns0.o arp.o   
+make[1]: Verzeichnis „/home/manuel/Downloads/dnsmasq-2.76/src“ wird verlassen

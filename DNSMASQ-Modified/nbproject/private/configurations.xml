@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name=".settings">
+      </df>
+      <df name="bld">
+      </df>
+      <df name="contrib">
+        <df name="conntrack">
+        </df>
+        <df name="CPE-WAN">
+        </df>
+        <df name="dbus-test">
+        </df>
+        <df name="dns-loc">
+        </df>
+        <df name="dnslist">
+        </df>
+        <df name="dnsmasq_MacOSX-pre10.4">
+        </df>
+        <df name="dynamic-dnsmasq">
+        </df>
+        <df name="lease-access">
+        </df>
+        <df name="lease-tools">
+          <in>dhcp_lease_time.c</in>
+          <in>dhcp_release.c</in>
+          <in>dhcp_release6.c</in>
+        </df>
+        <df name="MacOSX-launchd">
+        </df>
+        <df name="mactable">
+        </df>
+        <df name="openvpn">
+        </df>
+        <df name="port-forward">
+        </df>
+        <df name="reverse-dns">
+        </df>
+        <df name="slackware-dnsmasq">
+        </df>
+        <df name="Solaris10">
+        </df>
+        <df name="static-arp">
+        </df>
+        <df name="Suse">
+        </df>
+        <df name="systemd">
+        </df>
+        <df name="try-all-ns">
+        </df>
+        <df name="webmin">
+        </df>
+        <df name="wrt">
+        </df>
+      </df>
+      <df name="dbus">
+      </df>
+      <df name="logo">
+      </df>
+      <df name="man">
+        <df name="es">
+        </df>
+        <df name="fr">
+        </df>
+      </df>
+      <df name="po">
+      </df>
+      <df name="src">
+        <in>arp.c</in>
+        <in>auth.c</in>
+        <in>blockdata.c</in>
+        <in>bpf.c</in>
+        <in>cache.c</in>
+        <in>config.h</in>
+        <in>conntrack.c</in>
+        <in>dbus.c</in>
+        <in>dhcp-common.c</in>
+        <in>dhcp-protocol.h</in>
+        <in>dhcp.c</in>
+        <in>dhcp6-protocol.h</in>
+        <in>dhcp6.c</in>
+        <in>dns-protocol.h</in>
+        <in>dnsmasq.c</in>
+        <in>dnsmasq.h</in>
+        <in>dnssec.c</in>
+        <in>domain.c</in>
+        <in>edns0.c</in>
+        <in>forward.c</in>
+        <in>helper.c</in>
+        <in>inotify.c</in>
+        <in>ip6addr.h</in>
+        <in>ipset.c</in>
+        <in>lease.c</in>
+        <in>log.c</in>
+        <in>loop.c</in>
+        <in>netlink.c</in>
+        <in>network.c</in>
+        <in>option.c</in>
+        <in>outpacket.c</in>
+        <in>poll.c</in>
+        <in>radv-protocol.h</in>
+        <in>radv.c</in>
+        <in>rfc1035.c</in>
+        <in>rfc2131.c</in>
+        <in>rfc3315.c</in>
+        <in>rrfilter.c</in>
+        <in>slaac.c</in>
+        <in>tables.c</in>
+        <in>tftp.c</in>
+        <in>util.c</in>
+      </df>
+    </df>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_signals>
+        </gdb_signals>
+        <gdb_options>
+          <DebugOptions>
+            <option name="gdb_source_dirs" value="/home/manuel/Downloads/dnsmasq-2.76/."/>
+            <option name="debug_dir" value="/home/manuel/Downloads/dnsmasq-2.76/."/>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --dhcp-range 172.18.232.55,172.18.232.55,0.0.0.0,2m --interface=eth0 -d</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --dhcp-range 172.18.232.55,172.18.232.55,0.0.0.0,2m --interface=ens33 -d</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" --dhcp-range 192.168.1.79,192.168.1.79,0.0.0.0,2m --interface=ens33 -d</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}" --dhcp-range 192.168.1.79,192.168.1.79,0.0.0.0,2m --interface=ens33 -d</runcommand>
+        <rundir>.</rundir>
+        <buildfirst>true</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>
