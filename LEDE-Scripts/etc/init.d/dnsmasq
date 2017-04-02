@@ -25,7 +25,6 @@ cdr2mask ()
    set -- $(( 5 - ($1 / 8) )) 255 255 255 255 $(( (255 << (8 - ($1 % 8))) & 255 )) 0 0 0
    [ $1 -gt 1 ] && shift $1 || shift
    echo ${1-0}.${2-0}.${3-0}.${4-0} 
-   bridge_mask=${1-0}.${2-0}.${3-0}.${4-0}
 }
 
 xappend() {
@@ -391,30 +390,30 @@ dhcp_add() {
 		network_get_ipaddr bridge_addr "$bridge_interface" || return 0
 		network_get_device bridge_ifname "$bridge_interface" || return 0
 		network_get_subnet bridge_mask "$bridge_interface" || return 0
-		network_get_gateway bridge_gateway "$bridge_interface" || return 0 #this does not work :-(
-		bridge_mask=$(echo "$bridge_mask" | cut -d "/" -f2)
-		cdr2mask $bridge_mask
-		bridge_gateway=$(cat /tmp/ip | grep "gateway" | grep -E -o "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)") #workaround for not working function network_get_gateway
-	
+		network_get_gateway bridge_gateway "$bridge_interface" || return 0 #this does not work in origin mbim.sh 
+		bridge_maskcdr=$(echo "$bridge_mask" | cut -d "/" -f2)
+		bridge_mask=$(cdr2mask $bridge_maskcdr)
+		bridge_networkaddr=$(ipcalc.sh $bridge_addr/$bridge_maskcdr | grep NETWORK | cut -d "=" -f2)
+		
 		# get some usual stuff
 		config_get leasetime "$cfg" leasetime
 		config_get options "$cfg" options
+	
+		# adding bridge gateway ip to eth0
+		ip addr add $bridge_gateway/$bridge_maskcdr dev $ifname
 	
 		# adding routing tables
 		ip route add default dev $bridge_ifname table 42
 		ip route add default dev $ifname table 43
 		ip rule add pref 142 iif $ifname lookup 42
 		ip rule add pref 143 iif $bridge_ifname lookup 43
-	
-		# adding a pseudo mac in arptable to prevent arp-request-flood of client
-		ip neighbor add $bridge_gateway lladdr aa:bb:cc:dd:ee:ff dev $bridge_ifname nud perm
-
-		# turn on arp-proxy on, so that client can retreive gateway mac
-		echo 1 > /proc/sys/net/ipv4/conf/$ifname/proxy_arp
+		
 		
 		# append parameter
 		xappend "--dhcp-range=$networkid,$bridge_addr,$bridge_addr,$bridge_mask,$leasetime${options:+ $options}"
+		xappend "--interface=$ifname"
 		xappend "--dhcp-option-force=${networkid:+$networkid,}3,$bridge_gateway"
+		
 		dhcp_option_add "$cfg" "$networkid"
 		
 	else
@@ -832,13 +831,14 @@ dnsmasq_stop()
 	local cfg="$1"
 
 	if [ $BRIDGE_MODE_USED -gt 0 ]; then
-		# clean up bridge mode
 		
-		ip neighbor delete $bridge_gateway lladdr aa:bb:cc:dd:ee:ff dev $bridge_ifname
+		# clean up bridge mode
 		ip rule delete from 0/0 to 0/0 table 42
 		ip rule delete from 0/0 to 0/0 table 43
 		ip route flush table 42
 		ip route flush table 43
+		
+		ip addr del $bridge_gateway/$bridge_maskcdr dev $ifname
 		
 	fi
 	
