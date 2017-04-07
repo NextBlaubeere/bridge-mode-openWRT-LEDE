@@ -400,7 +400,9 @@ dhcp_add() {
 		config_get options "$cfg" options
 	
 		# adding bridge gateway ip to eth0
+		ip route del $bridge_networkaddr/$bridge_maskcdr dev $bridge_ifname
 		ip addr add $bridge_gateway/$bridge_maskcdr dev $ifname
+		ip route del table local $bridge_addr dev $bridge_ifname
 	
 		# adding routing tables
 		ip route add default dev $bridge_ifname table 42
