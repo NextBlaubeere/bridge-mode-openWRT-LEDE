@@ -356,8 +356,9 @@ dhcp_boot_add() {
 
 
 dhcp_add() {
-	
+
 	local cfg="$1"
+	
 	config_get net "$cfg" interface
 	[ -n "$net" ] || return 0
 
@@ -390,7 +391,7 @@ dhcp_add() {
 		network_get_ipaddr bridge_addr "$bridge_interface" || return 0
 		network_get_device bridge_ifname "$bridge_interface" || return 0
 		network_get_subnet bridge_mask "$bridge_interface" || return 0
-		network_get_gateway bridge_gateway "$bridge_interface" || return 0 #this does not work in origin mbim.sh 
+		network_get_gateway bridge_gateway "$bridge_interface" || return 0 #there are a lot of mbim.sh on the net where this does not work. 
 		bridge_maskcdr=$(echo "$bridge_mask" | cut -d "/" -f2)
 		bridge_mask=$(cdr2mask $bridge_maskcdr)
 		bridge_networkaddr=$(ipcalc.sh $bridge_addr/$bridge_maskcdr | grep NETWORK | cut -d "=" -f2)
@@ -841,6 +842,8 @@ dnsmasq_stop()
 		ip route flush table 43
 		
 		ip addr del $bridge_gateway/$bridge_maskcdr dev $ifname
+		ip route add $bridge_networkaddr/$bridge_maskcdr dev $bridge_ifname
+		ip route add table local $bridge_addr dev $bridge_ifname
 		
 	fi
 	
